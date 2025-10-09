@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+
+    <div th:if="${param.error}" style="color: red;">
+        Usuário ou senha inválidos.
+    </div>
+
+    <div th:if="${param.logout}" style="color: green;">
+        Você foi desconectado.
+    </div>
+    
+     <div th:if="${param.cadastro_sucesso}" style="color: green;">
+        Cadastro realizado com sucesso! Faça o login.
+    </div>
+
+    <form th:action="@{/login}" method="post">
+        <div>
+            <label for="username">E-mail:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit">Entrar</button>
+    </form>
+    <p><a th:href="@{/cadastro}">Não tem uma conta? Cadastre-se</a></p>
+</body>
+</html>
