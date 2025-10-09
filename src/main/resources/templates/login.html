@@ -3,23 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 <body>
-    <h1>Login</h1>
-
-    <div th:if="${param.error}" style="color: red;">
-        Usuário ou senha inválidos.
-    </div>
-
-    <div th:if="${param.logout}" style="color: green;">
-        Você foi desconectado.
-    </div>
-    
-     <div th:if="${param.cadastro_sucesso}" style="color: green;">
-        Cadastro realizado com sucesso! Faça o login.
-    </div>
-
     <form th:action="@{/login}" method="post">
+        <h1>Login</h1>
+
+        <div th:if="${param.error}" class="mensagem-erro">
+            Usuário ou senha inválidos.
+        </div>
+
+        <div th:if="${param.logout}" class="mensagem-sucesso">
+            Você foi desconectado.
+        </div>
+        
+        <div th:if="${param.cadastro_sucesso}" class="mensagem-sucesso">
+            Cadastro realizado com sucesso! Faça o login.
+        </div>
+
         <div>
             <label for="username">E-mail:</label>
             <input type="text" id="username" name="username" required>
@@ -29,7 +30,7 @@
             <input type="password" id="password" name="password" required>
         </div>
         <button type="submit">Entrar</button>
+        <p><a th:href="@{/cadastro}">Não tem uma conta? Cadastre-se</a></p>
     </form>
-    <p><a th:href="@{/cadastro}">Não tem uma conta? Cadastre-se</a></p>
 </body>
 </html>

@@ -1,49 +1,87 @@
 package br.com.financa.controle_financeiro.controller;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import br.com.financa.controle_financeiro.dto.UserRegistrationDTO;
+import br.com.financa.controle_financeiro.model.Transacao;
 import br.com.financa.controle_financeiro.model.User;
+import br.com.financa.controle_financeiro.repository.TransacaoRepository;
 import br.com.financa.controle_financeiro.repository.UserRepository;
+import jakarta.validation.Valid;
 
 @Controller
 public class UserController {
 
-    @Autowired // Injeção de dependência: O Spring nos dá uma instância do UserRepository
+    @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private TransacaoRepository transacaoRepository;
 
-    @Autowired // Injeção de dependência do nosso codificador de senhas
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     // Método para exibir a página de login
     @GetMapping("/login")
     public String login() {
-        return "login"; // Retorna o nome do arquivo HTML (login.html)
+        return "login";
     }
 
-    // Método para exibir o formulário de cadastro
+    // Método para exibir o formulário de cadastro (USANDO DTO)
     @GetMapping("/cadastro")
-    public String showRegistrationForm(User user) {
-        return "cadastro"; // Retorna o nome do arquivo HTML (cadastro.html)
+    public String showRegistrationForm(UserRegistrationDTO userRegistrationDTO, Model model) {
+        model.addAttribute("userRegistrationDTO", userRegistrationDTO);
+        return "cadastro";
     }
 
-    // Método para processar o formulário de cadastro
+    // Método para processar o formulário de cadastro (USANDO DTO E VALIDAÇÃO)
     @PostMapping("/cadastro")
-    public String processRegistration(User user) {
+    public String processRegistration(@Valid UserRegistrationDTO userRegistrationDTO, BindingResult result) {
+        
+        if (result.hasErrors()) {
+            return "cadastro";
+        }
+        
+        User user = new User();
+        user.setName(userRegistrationDTO.getName());
+        user.setEmail(userRegistrationDTO.getEmail());
+        
         // Criptografa a senha antes de salvar no banco
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
         userRepository.save(user);
         
-        // Redireciona para a página de login após o cadastro bem-sucedido
         return "redirect:/login?cadastro_sucesso";
     }
 
-    // Método para a página principal (após o login)
+    // Método para a página principal (AGORA COM DADOS FINANCEIROS)
     @GetMapping("/")
-    public String home() {
-        return "index"; // Retorna o nome do arquivo HTML (index.html)
+    public String home(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        
+        User user = userRepository.findByEmail(userDetails.getUsername())
+                                  .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
+
+        // Busca histórico e saldo
+        List<Transacao> historico = transacaoRepository.findByUserOrderByDataDesc(user);
+        BigDecimal saldo = transacaoRepository.calcularSaldo(user);
+        
+        if (saldo == null) {
+            saldo = BigDecimal.ZERO;
+        }
+
+        model.addAttribute("historico", historico);
+        model.addAttribute("saldo", saldo);
+        
+        return "index"; 
     }
 }

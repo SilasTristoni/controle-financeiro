@@ -12,8 +12,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity // Habilita a segurança web do Spring
 public class SecurityConfig {
 
-    // Bean para criptografar senhas. BCrypt é o padrão ouro.
-    // Ele gera um "hash" com "salt", tornando as senhas muito seguras.
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -25,6 +23,8 @@ public class SecurityConfig {
             .authorizeHttpRequests(authorize -> authorize
                 // Permite acesso público a estas URLs (CSS, JS, página de cadastro, etc.)
                 .requestMatchers("/css/**", "/js/**", "/cadastro").permitAll()
+                // Libera as URLs de transação e categoria APENAS para usuários autenticados
+                .requestMatchers("/transacao/**", "/categoria/**").authenticated() 
                 // Qualquer outra requisição exige autenticação
                 .anyRequest().authenticated()
             )

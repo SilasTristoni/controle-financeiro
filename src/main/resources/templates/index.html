@@ -1,12 +1,60 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Página Principal</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 <body>
-    <h1>Bem-vindo ao seu Controle Financeiro!</h1>
-    <p>Você está logado.</p>
+    <h1>Controle Financeiro Pessoal</h1>
+    <p>Você está logado como: <span sec:authentication="name">Usuário</span></p>
+
+    <div th:if="${mensagem}" class="mensagem-sucesso" th:text="${mensagem}"></div>
+
+    <div class="saldo-card">
+        <h2>Saldo Atual</h2>
+        <span class="saldo-valor">R$ 
+            <span th:text="${#numbers.formatDecimal(saldo, 1, 'POINT', 2, 'COMMA')}">0.00</span>
+        </span>
+    </div>
+
+    <p><a th:href="@{/transacao/nova}">Adicionar Nova Transação (Receita/Despesa)</a></p>
+    <p><a th:href="@{/categoria/nova}">Gerenciar Categorias</a></p>
+
+
+    <h3>Histórico de Transações</h3>
+    
+    <div th:if="${historico.isEmpty()}">
+        <p>Nenhuma transação registrada ainda.</p>
+    </div>
+
+    <table th:unless="${historico.isEmpty()}">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Descrição</th>
+                <th>Categoria</th>
+                <th>Valor</th>
+                <th>Tipo</th>
+                <th>Cupom Fiscal</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="transacao : ${historico}">
+                <td th:text="${#temporals.format(transacao.data, 'dd/MM/yyyy')}"></td>
+                <td th:text="${transacao.descricao}"></td>
+                <td th:text="${transacao.categoria.nome}"></td>
+                <td th:class="${transacao.tipo.name() == 'RECEITA' ? 'receita' : 'despesa'}">
+                    R$ <span th:text="${#numbers.formatDecimal(transacao.valor, 1, 'POINT', 2, 'COMMA')}">0.00</span>
+                </td>
+                <td th:text="${transacao.tipo.name() == 'RECEITA' ? 'Receita' : 'Despesa'}"></td>
+                <td>
+                   <a th:if="${transacao.caminhoCupomFiscal}" th:href="@{'/uploads/' + ${transacao.caminhoCupomFiscal}}" target="_blank">Ver Cupom</a>
+                   <span th:unless="${transacao.caminhoCupomFiscal}">Nenhum</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
     <form th:action="@{/logout}" method="post">
         <button type="submit">Sair</button>

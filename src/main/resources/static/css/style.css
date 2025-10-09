@@ -1,0 +1,195 @@
+/* src/main/resources/static/css/style.css (Corrigido) */
+
+/* --- Variáveis e Reset Básico --- */
+:root {
+    --color-primary: #007bff; /* Azul primário para botões e links */
+    --color-secondary: #6c757d; /* Cinza secundário */
+    --color-success: #28a745; /* Verde para receitas/sucesso */
+    --color-danger: #dc3545; /* Vermelho para despesas/erros */
+    --color-background: #f8f9fa; /* Fundo leve */
+    --color-card: #ffffff; /* Fundo de cartões */
+    --color-border: #e9ecef; /* Borda leve */
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--color-background);
+    color: #343a40;
+    margin: 0;
+    padding: 20px;
+}
+
+/* --- Layout Principal --- */
+h1 {
+    color: #343a40;
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* --- Cartão de Saldo (Destaca o Valor) --- */
+.saldo-card {
+    background-color: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 20px 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+    display: inline-block; 
+}
+
+.saldo-card h2 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    color: var(--color-secondary);
+}
+
+.saldo-valor {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #212529;
+}
+
+/* --- Mensagens de Status (CORRIGIDO: Usando classes diretas) --- */
+.mensagem-sucesso {
+    background-color: #d4edda;
+    color: var(--color-success);
+    border: 1px solid #c3e6cb;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.mensagem-erro {
+    background-color: #f8d7da;
+    color: var(--color-danger);
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+/* Estilo para erros de campo (nos formulários) */
+.erro-campo {
+    color: var(--color-danger);
+    font-size: 0.9rem;
+    margin-top: 5px;
+    font-weight: normal;
+}
+
+
+/* --- Estilos de Formulário (Login/Cadastro/Nova Transação) --- */
+form {
+    background-color: var(--color-card);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #495057;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+select,
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    box-sizing: border-box; 
+    transition: border-color 0.2s;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--color-primary);
+    outline: none;
+}
+
+/* --- Estilos de Botão --- */
+button[type="submit"], .btn-link {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+button[type="submit"]:hover, .btn-link:hover {
+    background-color: #0056b3;
+}
+
+form a {
+    display: block;
+    margin-top: 15px;
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+/* --- Estilos de Tabela (Histórico) --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: var(--color-card);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden; 
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+}
+
+th {
+    background-color: var(--color-border);
+    font-weight: 700;
+    color: #495057;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+/* Zebra Striping (Listras Alternadas) */
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #e9ecef;
+}
+
+/* Estilos Condicionais para Valores */
+.receita {
+    color: var(--color-success);
+    font-weight: 600;
+}
+
+.despesa {
+    color: var(--color-danger);
+    font-weight: 600;
+}
