@@ -7,8 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import br.com.financa.controle_financeiro.model.Categoria;
 import br.com.financa.controle_financeiro.model.Transacao;
-import br.com.financa.controle_financeiro.model.User;
+import br.com.financa.controle_financeiro.model.User; 
 
 public interface TransacaoRepository extends JpaRepository<Transacao, Long> {
 
@@ -19,4 +20,7 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Long> {
     @Query("SELECT SUM(CASE WHEN t.tipo = 'RECEITA' THEN t.valor ELSE -t.valor END) " +
            "FROM Transacao t WHERE t.user = :user")
     BigDecimal calcularSaldo(@Param("user") User user);
+    
+    // NOVO: Conta quantas transações estão ligadas a uma categoria (para impedir a exclusão)
+    long countByCategoria(Categoria categoria);
 }

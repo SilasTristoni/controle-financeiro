@@ -72,6 +72,33 @@ public class TransacaoController {
                                 @AuthenticationPrincipal UserDetails userDetails,
                                 RedirectAttributes redirectAttributes) {
 
+        // --- VALIDAÇÃO DOS CAMPOS OBRIGATÓRIOS (SERVER-SIDE) ---
+        // 1. Descrição
+        if (descricao == null || descricao.trim().isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "A descrição da transação é obrigatória.");
+            return "redirect:/transacao/nova";
+        }
+        
+        // 2. Valor (deve ser maior que zero)
+        if (valor == null || valor.compareTo(BigDecimal.ZERO) <= 0) {
+            redirectAttributes.addFlashAttribute("error", "O valor da transação deve ser positivo e obrigatório.");
+            return "redirect:/transacao/nova";
+        }
+
+        // 3. Tipo (Garantido pelo @RequestParam em Enum, mas checado por robustez)
+        if (tipo == null) {
+            redirectAttributes.addFlashAttribute("error", "O tipo (Receita/Despesa) é obrigatório.");
+            return "redirect:/transacao/nova";
+        }
+        
+        // 4. CategoriaId (Garantido pelo @RequestParam em Long, mas checado por robustez)
+        if (categoriaId == null) {
+            redirectAttributes.addFlashAttribute("error", "A categoria é obrigatória.");
+            return "redirect:/transacao/nova";
+        }
+        // --------------------------------------------------------
+
+
         User user = userRepository.findByEmail(userDetails.getUsername())
                                   .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
 

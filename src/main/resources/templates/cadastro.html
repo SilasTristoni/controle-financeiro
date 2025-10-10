@@ -6,7 +6,7 @@
     <link rel="stylesheet" th:href="@{/css/style.css}" />
     </head>
 <body>
-    <form th:action="@{/cadastro}" th:object="${userRegistrationDTO}" method="post">
+    <form th:action="@{/cadastro}" th:object="${user}" method="post">
         <h1>Crie sua Conta</h1>
         <div>
             <label for="name">Nome:</label>

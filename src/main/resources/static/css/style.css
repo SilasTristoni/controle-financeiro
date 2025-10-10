@@ -1,94 +1,111 @@
-/* src/main/resources/static/css/style.css (Corrigido) */
+/* ======================================= */
+/* ESTILOS MODERNOS - TEMA BANCO AZUL (NuBank-Like) */
+/* ======================================= */
 
-/* --- Variáveis e Reset Básico --- */
+/* --- Variáveis e Configurações Globais --- */
 :root {
-    --color-primary: #007bff; /* Azul primário para botões e links */
-    --color-secondary: #6c757d; /* Cinza secundário */
-    --color-success: #28a745; /* Verde para receitas/sucesso */
-    --color-danger: #dc3545; /* Vermelho para despesas/erros */
-    --color-background: #f8f9fa; /* Fundo leve */
-    --color-card: #ffffff; /* Fundo de cartões */
-    --color-border: #e9ecef; /* Borda leve */
+    --color-primary: #0066ff;       /* Azul Principal, vibrante */
+    --color-primary-dark: #0047b3;  /* Azul para hover/elementos escuros */
+    --color-background: #f5f7fa;    /* Fundo muito claro */
+    --color-card: #ffffff;          /* Fundo de Cartões/Formulários */
+    --color-secondary: #495057;     /* Cinza escuro para textos */
+    --color-success: #10a37f;       /* Verde/Teal para Receita/Saldo Positivo */
+    --color-danger: #e53857;        /* Vermelho moderno para Despesa/Erro */
+    
     --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --border-radius: 12px;
+    --shadow-elevation: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 body {
     font-family: var(--font-family);
     background-color: var(--color-background);
-    color: #343a40;
+    color: var(--color-secondary);
     margin: 0;
-    padding: 20px;
+    padding: 30px;
+    line-height: 1.6;
+    min-height: 100vh;
 }
 
 /* --- Layout Principal --- */
 h1 {
-    color: #343a40;
-    border-bottom: 2px solid var(--color-border);
-    padding-bottom: 10px;
+    color: var(--color-primary-dark);
     margin-bottom: 20px;
+    font-weight: 700;
+    font-size: 2rem;
+    border-bottom: none;
 }
 
-/* --- Cartão de Saldo (Destaca o Valor) --- */
+h2, h3 {
+    color: var(--color-secondary);
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+/* Informação do usuário logado */
+body > p {
+    color: #6c757d;
+    margin-bottom: 25px;
+    font-size: 0.9rem;
+}
+
+/* --- Cartão de Saldo (WIDGET DE DESTAQUE) --- */
 .saldo-card {
-    background-color: var(--color-card);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    padding: 20px 30px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    /* Estilo de cartão com fundo degradê azul, como o "cartão" do NuBank */
+    background: linear-gradient(135deg, var(--color-primary), #00aaff);
+    color: white;
+    border-radius: var(--border-radius);
+    padding: 25px 35px;
+    box-shadow: var(--shadow-elevation);
     margin-bottom: 30px;
     display: inline-block; 
+    min-width: 280px;
+    transition: transform 0.3s ease;
+}
+
+.saldo-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .saldo-card h2 {
     margin-top: 0;
-    font-size: 1.2rem;
-    color: var(--color-secondary);
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 400;
 }
 
 .saldo-valor {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     font-weight: 700;
-    color: #212529;
+    display: block;
 }
 
-/* --- Mensagens de Status (CORRIGIDO: Usando classes diretas) --- */
-.mensagem-sucesso {
-    background-color: #d4edda;
-    color: var(--color-success);
-    border: 1px solid #c3e6cb;
-    padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 4px;
-    font-weight: bold;
+/* --- Ações Principais (Links) --- */
+.action-links {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
 }
 
-.mensagem-erro {
-    background-color: #f8d7da;
-    color: var(--color-danger);
-    border: 1px solid #f5c6cb;
-    padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 4px;
-    font-weight: bold;
-}
-
-/* Estilo para erros de campo (nos formulários) */
-.erro-campo {
-    color: var(--color-danger);
-    font-size: 0.9rem;
-    margin-top: 5px;
-    font-weight: normal;
-}
-
-
-/* --- Estilos de Formulário (Login/Cadastro/Nova Transação) --- */
+/* --- Formulários e Containers --- */
 form {
     background-color: var(--color-card);
     padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    max-width: 400px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-elevation);
+    max-width: 450px;
     margin: 20px auto;
+}
+
+form h1 {
+    font-size: 1.5rem;
+    color: var(--color-primary-dark);
+    margin-bottom: 20px;
+    border-bottom: none;
+    text-align: center;
 }
 
 form div {
@@ -99,97 +116,197 @@ label {
     display: block;
     margin-bottom: 5px;
     font-weight: 600;
-    color: #495057;
+    color: var(--color-secondary);
 }
 
 input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="number"],
-input[type="date"],
 select,
 input[type="file"] {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border: 1px solid var(--color-border);
-    border-radius: 4px;
+    border-radius: 6px;
     box-sizing: border-box; 
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 input:focus,
 select:focus {
     border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(0, 102, 255, 0.2);
     outline: none;
 }
 
-/* --- Estilos de Botão --- */
+/* --- Estilos de Botão Comuns --- */
 button[type="submit"], .btn-link {
     background-color: var(--color-primary);
     color: white;
-    padding: 10px 15px;
+    padding: 12px 20px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 1rem;
+    font-weight: 600;
     transition: background-color 0.2s;
     text-decoration: none;
-    display: inline-block;
-    margin-top: 10px;
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
 }
 
 button[type="submit"]:hover, .btn-link:hover {
-    background-color: #0056b3;
+    background-color: var(--color-primary-dark);
 }
 
+/* Links em Formulários */
 form a {
-    display: block;
-    margin-top: 15px;
     color: var(--color-primary);
     text-decoration: none;
+    margin-top: 15px;
+    display: block;
+    font-size: 0.9rem;
+    text-align: center;
 }
 
-/* --- Estilos de Tabela (Histórico) --- */
+/* --- Botões Pequenos (Ações na Tabela) --- */
+
+/* REGRA DE PADRONIZAÇÃO: Aplica as mesmas propriedades de caixa, largura e alinhamento */
+.btn-link-sm, .btn-danger-sm {
+    /* Propriedades de Tamanho e Alinhamento */
+    padding: 6px 0; /* Padding horizontal zerado para que a largura funcione com texto centralizado */
+    width: 68px;    /* FORÇA A LARGURA IDÊNTICA */
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    vertical-align: middle; 
+    
+    /* Propriedades Visuais */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    box-sizing: border-box; 
+    transition: background-color 0.2s;
+}
+
+/* Estilo do Botão Editar (Link) */
+.btn-link-sm {
+    background-color: var(--color-primary);
+    color: white;
+    text-decoration: none; /* Garante que o sublinhado não apareça */
+    margin-right: 5px; 
+}
+
+.btn-link-sm:hover {
+    background-color: var(--color-primary-dark);
+}
+
+/* Estilo do Botão Excluir (Button dentro do Form) */
+.btn-danger-sm {
+    background-color: var(--color-danger);
+    color: white;
+}
+
+.btn-danger-sm:hover {
+    background-color: #c92f4c;
+}
+
+/* --- Tabela de Histórico (LIMPA E MODERNA) --- */
 table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     margin-top: 20px;
     background-color: var(--color-card);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    box-shadow: var(--shadow-elevation);
+    border-radius: var(--border-radius);
     overflow: hidden; 
 }
 
 th, td {
-    padding: 12px 15px;
+    padding: 15px 20px;
     text-align: left;
     border-bottom: 1px solid var(--color-border);
+    vertical-align: middle; /* Alinhamento vertical centralizado para o TD */
 }
 
 th {
-    background-color: var(--color-border);
+    background-color: var(--color-background);
+    color: var(--color-secondary);
     font-weight: 700;
-    color: #495057;
     text-transform: uppercase;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+}
+
+/* FIX: Estilo específico para a coluna de AÇÕES (last-child) */
+table td:last-child {
+    white-space: nowrap; 
+    width: 1%; 
+    padding: 8px 20px; /* Padding ajustado */
+}
+
+/* NOVO: Remove a margem do formulário de exclusão na tabela */
+table td:last-child form {
+    display: inline-block;
+    margin: 0; 
+    padding: 0;
+}
+
+/* Remove a borda inferior da última linha */
+tbody tr:last-child td {
+    border-bottom: none;
 }
 
 /* Zebra Striping (Listras Alternadas) */
-tr:nth-child(even) {
-    background-color: #f2f2f2;
+tbody tr:nth-child(even) {
+    background-color: #fafafa;
 }
 
-tr:hover {
-    background-color: #e9ecef;
+tbody tr:hover {
+    background-color: #f0f4f8;
 }
 
-/* Estilos Condicionais para Valores */
+/* --- Estilos Condicionais para Valores --- */
 .receita {
     color: var(--color-success);
     font-weight: 600;
+    font-size: 1.05rem;
 }
 
 .despesa {
     color: var(--color-danger);
     font-weight: 600;
+    font-size: 1.05rem;
+}
+
+/* --- Mensagens de Status e Erro --- */
+.mensagem-sucesso {
+    background-color: #e6f7f2;
+    color: var(--color-success);
+    border: 1px solid #b3e3d6;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.mensagem-erro {
+    background-color: #fde8eb;
+    color: var(--color-danger);
+    border: 1px solid #f9c3cd;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.erro-campo {
+    color: var(--color-danger);
+    font-size: 0.9rem;
+    margin-top: 5px;
+    font-weight: normal;
 }

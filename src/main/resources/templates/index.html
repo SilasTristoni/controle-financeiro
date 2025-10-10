@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Controle Financeiro Pessoal</h1>
-    <p>Você está logado como: <span sec:authentication="name">Usuário</span></p>
+    <p>Você está logado como: <span th:text="${userName}">Nome do Usuário</span></p>
 
     <div th:if="${mensagem}" class="mensagem-sucesso" th:text="${mensagem}"></div>
 
@@ -18,8 +18,10 @@
         </span>
     </div>
 
-    <p><a th:href="@{/transacao/nova}">Adicionar Nova Transação (Receita/Despesa)</a></p>
-    <p><a th:href="@{/categoria/nova}">Gerenciar Categorias</a></p>
+    <div class="action-links">
+        <a th:href="@{/transacao/nova}" class="btn-link">Adicionar Nova Transação (Receita/Despesa)</a>
+        <a th:href="@{/categoria/nova}" class="btn-link">Gerenciar Categorias</a>
+    </div>
 
 
     <h3>Histórico de Transações</h3>
