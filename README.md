@@ -38,11 +38,20 @@ CREATE DATABASE financas_db;
 
 (As tabelas serão criadas automaticamente pelo Hibernate ao iniciar o Spring Boot).
 
-2. Execução da Aplicação
-Navegue até o diretório raiz do projeto.
+2. Execução da Aplicação (Segura - Utilizando Variáveis de Ambiente)
+As credenciais do banco de dados (usuário e senha) foram removidas do application.properties por motivos de segurança, conforme a recomendação do Relatório Técnico.
 
-Execute a aplicação usando o wrapper Maven:
+**Método Recomendado:** Defina as credenciais como variáveis de ambiente antes de executar a aplicação.
+
+No Linux/macOS (Terminal):
+export SPRING_DATASOURCE_USERNAME=root
+export SPRING_DATASOURCE_PASSWORD=
 ./mvnw spring-boot:run
+
+No Windows (CMD ou PowerShell):
+set SPRING_DATASOURCE_USERNAME=root
+set SPRING_DATASOURCE_PASSWORD=
+.\mvnw.cmd spring-boot:run
 
 3. Acesso
 Acesse o navegador: http://localhost:8080/cadastro
