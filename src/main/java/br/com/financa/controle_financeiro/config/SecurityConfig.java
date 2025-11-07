@@ -20,6 +20,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+            // 1. Configuração do CSP (NOVA CORREÇÃO DE SEGURANÇA)
+            // A política permite conteúdo (scripts, estilos) apenas do mesmo domínio ('self').
+            // Isso mitiga ataques XSS (Cross-Site Scripting) injetados de fontes externas.
+            .headers(headers -> headers
+                .contentSecurityPolicy(csp -> csp
+                    .policyDirectives("default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:;"))
+            )
+            // 2. Regras de Autorização (Mantidas)
             .authorizeHttpRequests(authorize -> authorize
                 // Permite acesso público a estas URLs (CSS, JS, página de cadastro, etc.)
                 .requestMatchers("/css/**", "/js/**", "/cadastro").permitAll()
@@ -28,7 +36,7 @@ public class SecurityConfig {
                 // Qualquer outra requisição exige autenticação
                 .anyRequest().authenticated()
             )
-            // Configura o formulário de login
+            // 3. Configura o formulário de login (Mantido)
             .formLogin(form -> form
                 // URL da página de login personalizada
                 .loginPage("/login")
@@ -37,7 +45,7 @@ public class SecurityConfig {
                 // URL para onde redirecionar após login com sucesso
                 .defaultSuccessUrl("/", true)
             )
-            // Configura o logout
+            // 4. Configura o logout (Mantido)
             .logout(logout -> logout
                 .permitAll()
             );
