@@ -20,19 +20,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            // 1. Configuração do CSP (NOVA CORREÇÃO DE SEGURANÇA)
-            // A política permite conteúdo (scripts, estilos) apenas do mesmo domínio ('self').
-            // Isso mitiga ataques XSS (Cross-Site Scripting) injetados de fontes externas.
+            // 1. CORREÇÃO FINAL DE SEGURANÇA: Implementa Content Security Policy (CSP).
+            // A política usa 'default-src 'self'' como fallback (RESOLVE O ERRO 'Failure to Define Directive').
+            // Isso mitiga XSS (Cross-Site Scripting) e permite recursos externos necessários (Google Fonts).
             .headers(headers -> headers
                 .contentSecurityPolicy(csp -> csp
-                    .policyDirectives("default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:;"))
+                    .policyDirectives("default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:;"))
             )
-            // 2. Regras de Autorização (Mantidas)
+            // 2. Regras de Autorização (Ajustadas para funcionalidade completa)
             .authorizeHttpRequests(authorize -> authorize
-                // Permite acesso público a estas URLs (CSS, JS, página de cadastro, etc.)
-                .requestMatchers("/css/**", "/js/**", "/cadastro").permitAll()
-                // Libera as URLs de transação e categoria APENAS para usuários autenticados
-                .requestMatchers("/transacao/**", "/categoria/**").authenticated() 
+                // Permite acesso público a URLs essenciais (CSS, JS, cadastro) E ao diretório de uploads para visualização de cupons
+                .requestMatchers("/css/**", "/js/**", "/cadastro", "/uploads/**").permitAll()
+                // Libera as URLs internas (Home, transação, categoria) APENAS para usuários autenticados
+                .requestMatchers("/", "/transacao/**", "/categoria/**").authenticated() 
                 // Qualquer outra requisição exige autenticação
                 .anyRequest().authenticated()
             )
